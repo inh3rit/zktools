@@ -1,0 +1,22 @@
+.button {
+    -fx-background-color: #028078;
+    -fx-pref-height: 40;
+    -fx-pref-width: 80;
+}
+
+.button:hover {
+    -fx-background-color: blue;
+}
+
+.button:pressed {
+    -fx-background-color: red;
+}
+
+#propHBox {
+    -fx-alignment: center;
+}
+
+
+#propPane {
+    -fx-alignment: center;
+}
