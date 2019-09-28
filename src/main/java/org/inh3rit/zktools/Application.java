@@ -23,9 +23,7 @@ public class Application extends AbstractJavaFxApplicationSupport {
             // 关闭窗口
             getStage().close();
             try {
-                // 关闭ApplicationContext
                 this.stop();
-                // 重新初始化
                 this.init();
                 this.start(new Stage());
             } catch (Exception e) {

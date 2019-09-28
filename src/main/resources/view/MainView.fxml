@@ -11,54 +11,55 @@
 <?import javafx.scene.layout.FlowPane?>
 <?import javafx.scene.layout.HBox?>
 
-<BorderPane fx:id="mainPane" prefHeight="800.0" prefWidth="1200.0" minHeight="800" minWidth="1200" xmlns="http://javafx.com/javafx/8.0.172-ea"
-            xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.inh3rit.zktools.controller.MainViewController" stylesheets="/css/zktools.css">
+<?import javafx.scene.control.TreeView?>
+<BorderPane fx:id="mainPane" prefHeight="800.0" prefWidth="1200.0" minHeight="800" minWidth="1200"
+            xmlns="http://javafx.com/javafx/8.0.172-ea"
+            xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.inh3rit.zktools.controller.MainViewController"
+            stylesheets="/css/zktools.css">
 
     <top>
-        <FlowPane fx:id="propPane">
-            <HBox fx:id="propHBox">
-                <Label alignment="CENTER" text="zookeeper url" HBox.hgrow="ALWAYS"/>
-                <TextField text="127.0.0.1:2181" HBox.hgrow="ALWAYS" prefHeight="40" prefWidth="300"/>
-                <TextField promptText="监控根节点" HBox.hgrow="ALWAYS" prefHeight="40"/>
-                <Button text="链接" HBox.hgrow="ALWAYS"/>
-                <Button text="断开" HBox.hgrow="ALWAYS"/>
-            </HBox>
+        <FlowPane fx:id="propPane" prefHeight="60">
+            <Label alignment="CENTER" text="zookeeper url" HBox.hgrow="ALWAYS"/>
+            <TextField text="127.0.0.1:2181" prefHeight="40" prefWidth="300"/>
+            <TextField promptText="监控根节点" prefHeight="40"/>
+            <Button text="连接" fx:id="connectBtn" onMouseClicked="#handleConnect" />
+            <Button text="断开"/>
         </FlowPane>
     </top>
     <center>
         <BorderPane>
             <left>
-                <BorderPane>
+                <BorderPane fx:id="left" prefWidth="260">
                     <top>
-                        <HBox>
-                            <TextField prefWidth="200" prefHeight="40" />
-                            <Button maxWidth="40"/>
+                        <HBox prefWidth="-Infinity">
+                            <TextField prefWidth="200" prefHeight="40" alignment="CENTER_LEFT"/>
+                            <Button fx:id="findBtn" maxWidth="40" />
                         </HBox>
                     </top>
                     <center>
-
+                        <TreeView fx:id="rootTree" />
                     </center>
                 </BorderPane>
             </left>
             <center>
                 <BorderPane prefHeight="-Infinity" prefWidth="-Infinity">
                     <top>
-                        <TabPane>
+                        <TabPane prefHeight="500">
                             <Tab closable="false" text="节点名">
-                                <BorderPane>
-                                    <TextArea></TextArea>
-                                </BorderPane>
+                                <content>
+                                    <TextArea prefWidth="-Infinity" prefHeight="-Infinity"/>
+                                </content>
                             </Tab>
                             <Tab closable="false" text="节点值"/>
                             <Tab closable="false" text="节点属性"/>
                         </TabPane>
                     </top>
                     <center>
-                        <HBox maxHeight="60">
-                            <CheckBox />
-                            <Label text="URL解码" />
-                            <CheckBox />
-                            <Label text="美化(dubbo)" />
+                        <HBox maxHeight="60" alignment="CENTER_LEFT">
+                            <CheckBox/>
+                            <Label text="URL解码"/>
+                            <CheckBox/>
+                            <Label text="美化(dubbo)"/>
                         </HBox>
                     </center>
                     <bottom>
