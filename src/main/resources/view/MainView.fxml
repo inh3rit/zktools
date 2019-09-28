@@ -20,7 +20,7 @@
     <top>
         <FlowPane fx:id="propPane" prefHeight="60">
             <Label alignment="CENTER" text="zookeeper url" HBox.hgrow="ALWAYS"/>
-            <TextField text="127.0.0.1:2181" prefHeight="40" prefWidth="300"/>
+            <TextField fx:id="urlTxt" text="127.0.0.1:2181" prefHeight="40" prefWidth="300"/>
             <TextField promptText="监控根节点" prefHeight="40"/>
             <Button text="连接" fx:id="connectBtn" onMouseClicked="#handleConnect" />
             <Button text="断开"/>
