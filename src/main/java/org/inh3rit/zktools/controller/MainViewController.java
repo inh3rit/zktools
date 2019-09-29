@@ -10,6 +10,10 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.FlowPane;
+import org.apache.zookeeper.ZooKeeper;
+import org.inh3rit.zktools.utils.ZKUtils;
+
+import java.util.List;
 
 /**
  * @Description:
@@ -35,23 +39,23 @@ public class MainViewController {
     }
 
     @FXML
-    private void handleConnect() {
+    private void handleConnect() throws Exception {
         String url = urlTxt.getCharacters().toString();
         if (!checkUrl(url)) {
             // TODO 提示
             return;
         }
 
-
-
+        ZooKeeper zk = ZKUtils.getZK(url);
+        List<String> children = ZKUtils.getChildren(zk, "/");
 
         Node rootIcon = new ImageView(new Image(getClass().getResourceAsStream("/pics/directory.png")));
-        TreeItem<String> rootItem = new TreeItem<>("Zookeeper", rootIcon);
+        TreeItem<String> rootItem = new TreeItem<>("/", rootIcon);
         rootItem.setExpanded(true);
-        TreeItem<String> item1 = new TreeItem<>("Message1");
-        TreeItem<String> item2 = new TreeItem<>("Message1");
-        item1.getChildren().add(item2);
-        rootItem.getChildren().add(item1);
+        for (String child : children) {
+            TreeItem<String> item1 = new TreeItem<>(child);
+            rootItem.getChildren().add(item1);
+        }
         rootTree.setRoot(rootItem);
     }
 
