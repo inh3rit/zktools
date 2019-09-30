@@ -1,16 +1,15 @@
 package org.inh3rit.zktools.utils;
 
+import com.alibaba.fastjson.JSONObject;
 import org.apache.zookeeper.KeeperException;
 import org.apache.zookeeper.Watcher;
 import org.apache.zookeeper.ZooKeeper;
-import org.apache.zookeeper.data.Stat;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
-import java.util.Optional;
+import java.util.Map;
 
 /**
  * @Description:
@@ -20,7 +19,7 @@ import java.util.Optional;
 public class ZKUtils {
 
     public static ZooKeeper getZK(String connectString) throws Exception {
-        return getZK(connectString, 3000);
+        return getZK(connectString, 30000);
     }
 
     public static ZooKeeper getZK(String connectString, int sessionTimeout) throws Exception {
@@ -38,8 +37,31 @@ public class ZKUtils {
     public static List<String> getChildren(ZooKeeper zk, String path) throws Exception {
         try {
             return zk.getChildren(path, false);
-        } catch (KeeperException |InterruptedException e) {
+        } catch (KeeperException | InterruptedException e) {
             throw new Exception("获取子节点目录失败!");
+        }
+    }
+
+    public static Map<String, List> getAllChildren(ZooKeeper zk, String path) throws Exception {
+        Map<String, List> childrenMap = new HashMap<>();
+        List<String> children;
+        try {
+            children = zk.getChildren(path, false);
+        } catch (KeeperException | InterruptedException e) {
+            throw new Exception("获取子节点目录失败!");
+        }
+        if (0 == children.size()) {
+            childrenMap.put(path, children);
+            return childrenMap;
+        } else {
+            List list = new ArrayList();
+            for (String child : children) {
+                // 父节点是根目录会出现"//"的情况
+                String childPath = "/".equals(path) ? path + child : path + "/" + child;
+                list.add(getAllChildren(zk, childPath));
+            }
+            childrenMap.put(path, list);
+            return childrenMap;
         }
     }
 

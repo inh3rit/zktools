@@ -8,12 +8,14 @@ import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.FlowPane;
 import org.apache.zookeeper.ZooKeeper;
 import org.inh3rit.zktools.utils.ZKUtils;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @Description:
@@ -47,16 +49,25 @@ public class MainViewController {
         }
 
         ZooKeeper zk = ZKUtils.getZK(url);
-        List<String> children = ZKUtils.getChildren(zk, "/");
+        Map<String, List> dirs = ZKUtils.getAllChildren(zk, "/");
 
         Node rootIcon = new ImageView(new Image(getClass().getResourceAsStream("/pics/directory.png")));
-        TreeItem<String> rootItem = new TreeItem<>("/", rootIcon);
+        TreeItem<String> rootItem = new TreeItem<>(dirs.keySet().toArray()[0].toString(), rootIcon);
         rootItem.setExpanded(true);
-        for (String child : children) {
-            TreeItem<String> item1 = new TreeItem<>(child);
-            rootItem.getChildren().add(item1);
-        }
+        addItems(rootItem, dirs.get(rootItem.getValue()));
         rootTree.setRoot(rootItem);
+    }
+
+    private void addItems(TreeItem treeItem, List list) {
+        for (Object o : list) {
+            Map<String, List> map = (Map<String, List>) o;
+            String dir = map.keySet().toArray()[0].toString();
+            String[] dirs = dir.split("/");
+            String dirName = dirs[dirs.length - 1];
+            TreeItem<String> item = new TreeItem<>(dirName);
+            addItems(item, map.get(dir));
+            treeItem.getChildren().add(item);
+        }
     }
 
     private boolean checkUrl(String url) {
