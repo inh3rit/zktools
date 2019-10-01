@@ -22,3 +22,16 @@
 #findBtn {
     -fx-background-image: url("/pics/find.png");
 }
+
+#nodePropPane {
+    -fx-alignment: center;
+}
+
+#nodePropPane .text-field {
+    -fx-pref-height: 40;
+    -fx-pref-width: 200;
+}
+
+#nodePropPane .label {
+    -fx-text-alignment: right;
+}

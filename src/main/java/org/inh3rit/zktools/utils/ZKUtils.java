@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSONObject;
 import org.apache.zookeeper.KeeperException;
 import org.apache.zookeeper.Watcher;
 import org.apache.zookeeper.ZooKeeper;
+import org.apache.zookeeper.data.Stat;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -39,6 +40,22 @@ public class ZKUtils {
             return zk.getChildren(path, false);
         } catch (KeeperException | InterruptedException e) {
             throw new Exception("获取子节点目录失败!");
+        }
+    }
+
+    public static Stat getStat(ZooKeeper zk, String path) throws Exception {
+        try {
+            return zk.exists(path, false);
+        } catch (KeeperException | InterruptedException e) {
+            throw new Exception("获取节点属性失败!");
+        }
+    }
+
+    public static String getData(ZooKeeper zk, String path) throws Exception {
+        try {
+            return new String(zk.getData(path, false, null));
+        } catch (KeeperException | InterruptedException e) {
+            throw new Exception("获取节点值失败!");
         }
     }
 

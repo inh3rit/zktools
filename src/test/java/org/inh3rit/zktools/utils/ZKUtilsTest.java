@@ -23,10 +23,12 @@ public class ZKUtilsTest {
     @Test
     public void getZK() throws Exception {
         ZooKeeper zk = ZKUtils.getZK("47.106.143.175:2181");
+        byte[] data = zk.getData("/dir3", false, null);
+        System.out.println(new String(data));
 //        Stat stat = zk.exists("/dir3", false);
 //        System.out.println(stat);
-        List<String> children = zk.getChildren("/", false);
-        System.out.println(children);
+//        List<String> children = zk.getChildren("/", false);
+//        System.out.println(children);
     }
 
     @Test
