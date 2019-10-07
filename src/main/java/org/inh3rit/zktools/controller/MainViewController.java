@@ -84,13 +84,14 @@ public class MainViewController {
         rootItem.setExpanded(true);
         addItems(rootItem, dirMap.get(rootItem.getValue()));
         rootTree.setRoot(rootItem);
-
     }
 
     private String getFullPath(TreeItem item) {
         String value = item.getValue().toString();
         TreeItem parent = item.getParent();
-        if ("/".equals(parent.getValue().toString())) {
+        if ("/".equals(value)) {
+            return "/";
+        } else if ("/".equals(parent.getValue().toString())) {
             return "/" + value;
         } else {
             return getFullPath(parent) + "/" + value;
@@ -181,6 +182,10 @@ public class MainViewController {
         TreeItem selectedItem = (TreeItem) rootTree.getSelectionModel().getSelectedItem();
         String fullPath = getFullPath(selectedItem);
         nodeName.setText(selectedItem.getValue().toString());
+
+        if ("/".equals(fullPath))
+            return;
+
         try {
             Optional<String> value = Optional.of(ZKUtils.getData(zk, fullPath));
             nodeValue.setText(value.orElse(""));
