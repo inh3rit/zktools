@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.Button?>
+<GridPane xmlns="http://javafx.com/javafx"
+          xmlns:fx="http://javafx.com/fxml"
+          fx:id="addNodePane"
+          fx:controller="org.inh3rit.zktools.controller.AddNodeController"
+          prefHeight="400.0" prefWidth="600.0"
+          stylesheets="/styles/zktools.css">
+
+    <Label text="父节点"
+           GridPane.columnIndex="0" GridPane.rowIndex="0"/>
+    <TextField fx:id="parentNodeName" editable="false"
+               GridPane.columnIndex="1" GridPane.rowIndex="0" GridPane.columnSpan="2"/>
+    <Label text="节点名"
+           GridPane.columnIndex="0" GridPane.rowIndex="1" />
+    <TextField fx:id="newNodeName"
+               GridPane.columnIndex="1" GridPane.rowIndex="1" GridPane.columnSpan="2"/>
+    <Label text="内容"
+           GridPane.columnIndex="0" GridPane.rowIndex="2"/>
+    <TextArea fx:id="newNodeContent"
+               GridPane.columnIndex="1" GridPane.rowIndex="2" GridPane.columnSpan="2"/>
+    <Button text="确定"
+            GridPane.columnIndex="1" GridPane.rowIndex="3"/>
+    <Button text="取消"
+            GridPane.columnIndex="2" GridPane.rowIndex="3"/>
+</GridPane>

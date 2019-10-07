@@ -3,6 +3,11 @@
     -fx-pref-width: 80;
 }
 
+.text-field {
+    -fx-pref-height: 40;
+    -fx-pref-width: 200;
+}
+
 #propPane {
     -fx-alignment: center;
 }
@@ -12,26 +17,25 @@
     -fx-border-insets: 0px 5px 0px;
     -fx-background-insets: 0px 5px 0px;
 }
-
 /*#left * {*/
 /*    -fx-padding: 0px 5px 0px;*/
 /*    -fx-border-insets: 0px 5px 0px;*/
 /*    -fx-background-insets: 0px 5px 0px;*/
+
 /*}*/
 
 #findBtn {
-    -fx-background-image: url("/pics/find.png");
+    -fx-background-image: url("/images/find.png");
 }
 
 #nodePropPane {
     -fx-alignment: center;
 }
 
-#nodePropPane .text-field {
-    -fx-pref-height: 40;
-    -fx-pref-width: 200;
-}
-
 #nodePropPane .label {
     -fx-text-alignment: right;
+}
+
+#addNodePane {
+    -fx-alignment: center;
 }

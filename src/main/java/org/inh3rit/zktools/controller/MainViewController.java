@@ -1,22 +1,27 @@
 package org.inh3rit.zktools.controller;
 
-import com.sun.javafx.scene.control.skin.LabeledText;
 import de.felixroske.jfxsupport.FXMLController;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
-import javafx.scene.control.*;
+import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
+import javafx.scene.control.TreeItem;
+import javafx.scene.control.TreeView;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.FlowPane;
-import javafx.util.Callback;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 import org.apache.zookeeper.ZooKeeper;
 import org.apache.zookeeper.data.Stat;
+import org.inh3rit.zktools.Application;
 import org.inh3rit.zktools.utils.ZKUtils;
+import org.inh3rit.zktools.views.AddNodeView;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 /**
  * @Description:
@@ -25,12 +30,6 @@ import java.util.Map;
  */
 @FXMLController
 public class MainViewController {
-
-    @FXML
-    private BorderPane mainPane;
-
-    @FXML
-    private FlowPane propPane;
 
     @FXML
     private TreeView rootTree;
@@ -48,13 +47,21 @@ public class MainViewController {
     private TextField node_ctime, node_dataLength, node_mtime, node_ephemeralOwner, node_cZxid,
             node_numChildren, node_mZxid, node_aversion, node_pZxid, node_cversion, node_version;
 
+    @Autowired
+    private AddNodeController addNodeController;
+
     private Image rootIconImg, leafIconImg;
 
     private ZooKeeper zk;
 
+    private Map<String, List> dirMap;
+
+    public static String newNodeParentValue;
+
+
     public void initialize() {
-        rootIconImg = new Image(getClass().getResourceAsStream("/pics/directory.png"));
-        leafIconImg = new Image(getClass().getResourceAsStream("/pics/file.png"));
+        rootIconImg = new Image(getClass().getResourceAsStream("/images/directory.png"));
+        leafIconImg = new Image(getClass().getResourceAsStream("/images/file.png"));
     }
 
     @FXML
@@ -66,43 +73,18 @@ public class MainViewController {
         }
         zk = ZKUtils.getZK(url);
 
-        initDirs(url);
+        initDirs();
     }
 
-    private void initDirs(String url) throws Exception {
-        Map<String, List> dirs = ZKUtils.getAllChildren(zk, "/");
+    private void initDirs() throws Exception {
+        dirMap = ZKUtils.getAllChildren(zk, "/");
 
         Node rootIcon = new ImageView(rootIconImg);
-        TreeItem<String> rootItem = new TreeItem<>(dirs.keySet().toArray()[0].toString(), rootIcon);
+        TreeItem<String> rootItem = new TreeItem<>(dirMap.keySet().toArray()[0].toString(), rootIcon);
         rootItem.setExpanded(true);
-        addItems(rootItem, dirs.get(rootItem.getValue()));
+        addItems(rootItem, dirMap.get(rootItem.getValue()));
         rootTree.setRoot(rootItem);
-        rootTree.addEventFilter(MouseEvent.MOUSE_CLICKED, event -> {
-            System.out.println(1);
-            if (1 < event.getClickCount())
-                return;
-            System.out.println(2);
-            TreeItem selectedItem = (TreeItem) ((TreeView) event.getSource()).getSelectionModel().getSelectedItem();
-            String fullPath = getFullPath(selectedItem);
-            nodeName.setText(selectedItem.getValue().toString());
-            try {
-                nodeValue.setText(ZKUtils.getData(zk, fullPath));
-                Stat stat = ZKUtils.getStat(zk, fullPath);
-                node_ctime.setText(String.valueOf(stat.getCtime()));
-                node_dataLength.setText(String.valueOf(stat.getDataLength()));
-                node_mtime.setText(String.valueOf(stat.getMtime()));
-                node_ephemeralOwner.setText(String.valueOf(stat.getEphemeralOwner()));
-                node_cZxid.setText(String.valueOf(stat.getCzxid()));
-                node_numChildren.setText(String.valueOf(stat.getNumChildren()));
-                node_mZxid.setText(String.valueOf(stat.getMzxid()));
-                node_aversion.setText(String.valueOf(stat.getAversion()));
-                node_pZxid.setText(String.valueOf(stat.getPzxid()));
-                node_cversion.setText(String.valueOf(stat.getCversion()));
-                node_version.setText(String.valueOf(stat.getVersion()));
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        });
+
     }
 
     private String getFullPath(TreeItem item) {
@@ -142,4 +124,80 @@ public class MainViewController {
     }
 
 
+    @FXML
+    private void handleDisconnect() {
+        try {
+            zk.close();
+        } catch (InterruptedException e) {
+            // TODO 断开失败
+        }
+        rootTree.setRoot(null);
+        dirMap.clear();
+        clearValue();
+    }
+
+    private void clearValue() {
+        nodeName.setText(null);
+        nodeValue.setText(null);
+        node_ctime.setText(null);
+        node_dataLength.setText(null);
+        node_mtime.setText(null);
+        node_ephemeralOwner.setText(null);
+        node_cZxid.setText(null);
+        node_numChildren.setText(null);
+        node_mZxid.setText(null);
+        node_aversion.setText(null);
+        node_pZxid.setText(null);
+        node_cversion.setText(null);
+        node_version.setText(null);
+    }
+
+    /**
+     * 添加鼠标右击菜单事件:添加节点,删除节点
+     */
+    @FXML
+    private void handleAddNode() {
+        TreeItem selectedItem = (TreeItem) rootTree.getSelectionModel().getSelectedItem();
+        newNodeParentValue = selectedItem.getValue().toString();
+        Stage addNodeStage = addNodeController.getStage();
+        if (addNodeStage == null) {
+            Application.showView(AddNodeView.class, Modality.APPLICATION_MODAL);
+        } else {
+            addNodeController.getParentNodeName().setText(newNodeParentValue);
+            addNodeStage.showAndWait();
+        }
+
+    }
+
+    /**
+     * 添加鼠标左键单击事件,查看节点信息
+     *
+     * @param event
+     */
+    @FXML
+    private void handleGetNodeInfo(MouseEvent event) {
+        if (1 < event.getClickCount())
+            return;
+        TreeItem selectedItem = (TreeItem) rootTree.getSelectionModel().getSelectedItem();
+        String fullPath = getFullPath(selectedItem);
+        nodeName.setText(selectedItem.getValue().toString());
+        try {
+            Optional<String> value = Optional.of(ZKUtils.getData(zk, fullPath));
+            nodeValue.setText(value.orElse(""));
+            Stat stat = ZKUtils.getStat(zk, fullPath);
+            node_ctime.setText(String.valueOf(stat.getCtime()));
+            node_dataLength.setText(String.valueOf(stat.getDataLength()));
+            node_mtime.setText(String.valueOf(stat.getMtime()));
+            node_ephemeralOwner.setText(String.valueOf(stat.getEphemeralOwner()));
+            node_cZxid.setText(String.valueOf(stat.getCzxid()));
+            node_numChildren.setText(String.valueOf(stat.getNumChildren()));
+            node_mZxid.setText(String.valueOf(stat.getMzxid()));
+            node_aversion.setText(String.valueOf(stat.getAversion()));
+            node_pZxid.setText(String.valueOf(stat.getPzxid()));
+            node_cversion.setText(String.valueOf(stat.getCversion()));
+            node_version.setText(String.valueOf(stat.getVersion()));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }

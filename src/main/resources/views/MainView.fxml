@@ -5,7 +5,7 @@
 <BorderPane fx:id="mainPane" prefHeight="800.0" prefWidth="1200.0" minHeight="800" minWidth="1200"
             xmlns="http://javafx.com/javafx/8.0.172-ea"
             xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.inh3rit.zktools.controller.MainViewController"
-            stylesheets="/css/zktools.css">
+            stylesheets="/styles/zktools.css">
 
     <top>
         <FlowPane fx:id="propPane" prefHeight="60">
@@ -13,7 +13,7 @@
             <TextField fx:id="urlTxt" text="47.106.143.175:2181" prefHeight="40" prefWidth="300"/>
             <TextField promptText="监控根节点" prefHeight="40"/>
             <Button text="连接" fx:id="connectBtn" onMouseClicked="#handleConnect"/>
-            <Button text="断开"/>
+            <Button text="断开" fx:id="disconnectBtn" onMouseClicked="#handleDisconnect"/>
         </FlowPane>
     </top>
     <center>
@@ -27,7 +27,16 @@
                         </HBox>
                     </top>
                     <center>
-                        <TreeView fx:id="rootTree"/>
+                        <TreeView fx:id="rootTree" onMouseClicked="#handleGetNodeInfo">
+                            <contextMenu>
+                                <ContextMenu>
+                                    <items>
+                                        <MenuItem text="添加节点" onAction="#handleAddNode" />
+                                        <MenuItem text="删除节点" />
+                                    </items>
+                                </ContextMenu>
+                            </contextMenu>
+                        </TreeView>
                     </center>
                 </BorderPane>
             </left>
