@@ -25,7 +25,7 @@
     <TextArea fx:id="newNodeContent"
                GridPane.columnIndex="1" GridPane.rowIndex="2" GridPane.columnSpan="2"/>
     <Button text="确定"
-            GridPane.columnIndex="1" GridPane.rowIndex="3"/>
+            GridPane.columnIndex="1" GridPane.rowIndex="3" onMouseClicked="#handleAddNode"/>
     <Button text="取消"
-            GridPane.columnIndex="2" GridPane.rowIndex="3"/>
+            GridPane.columnIndex="2" GridPane.rowIndex="3" onMouseClicked="#handleCancel" />
 </GridPane>

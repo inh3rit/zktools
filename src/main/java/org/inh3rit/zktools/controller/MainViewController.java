@@ -15,6 +15,7 @@ import javafx.stage.Stage;
 import org.apache.zookeeper.ZooKeeper;
 import org.apache.zookeeper.data.Stat;
 import org.inh3rit.zktools.Application;
+import org.inh3rit.zktools.client.ZKClient;
 import org.inh3rit.zktools.utils.ZKUtils;
 import org.inh3rit.zktools.views.AddNodeView;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -71,8 +72,12 @@ public class MainViewController {
             // TODO 提示
             return;
         }
-        zk = ZKUtils.getZK(url);
+        zk = ZKClient.getClient(url);
 
+        initDirs();
+    }
+
+    public void refresh() throws Exception {
         initDirs();
     }
 
@@ -86,7 +91,7 @@ public class MainViewController {
         rootTree.setRoot(rootItem);
     }
 
-    private String getFullPath(TreeItem item) {
+    public String getFullPath(TreeItem item) {
         String value = item.getValue().toString();
         TreeItem parent = item.getParent();
         if ("/".equals(value)) {
@@ -165,6 +170,8 @@ public class MainViewController {
             Application.showView(AddNodeView.class, Modality.APPLICATION_MODAL);
         } else {
             addNodeController.getParentNodeName().setText(newNodeParentValue);
+            addNodeController.getNewNodeName().setText("");
+            addNodeController.getNewNodeContent().setText("");
             addNodeStage.showAndWait();
         }
 
@@ -180,6 +187,8 @@ public class MainViewController {
         if (1 < event.getClickCount())
             return;
         TreeItem selectedItem = (TreeItem) rootTree.getSelectionModel().getSelectedItem();
+        if (selectedItem == null)
+            return;
         String fullPath = getFullPath(selectedItem);
         nodeName.setText(selectedItem.getValue().toString());
 
@@ -204,5 +213,13 @@ public class MainViewController {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public TextField getUrlTxt() {
+        return urlTxt;
+    }
+
+    public TreeView getRootTree() {
+        return rootTree;
     }
 }

@@ -6,9 +6,15 @@ import javafx.fxml.FXML;
 import javafx.scene.Scene;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.control.TreeItem;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
+import org.apache.zookeeper.CreateMode;
+import org.apache.zookeeper.ZooDefs;
+import org.apache.zookeeper.ZooKeeper;
 import org.inh3rit.zktools.Application;
+import org.inh3rit.zktools.client.ZKClient;
 import org.inh3rit.zktools.views.AddNodeView;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -19,9 +25,6 @@ import org.springframework.beans.factory.annotation.Autowired;
  */
 @FXMLController
 public class AddNodeController {
-
-    @Autowired
-    private AddNodeView addNodeView;
 
     @FXML
     private GridPane addNodePane;
@@ -34,11 +37,28 @@ public class AddNodeController {
 
     private Stage stage;
 
+    @Autowired
+    private MainViewController mainViewController;
+
     public void initialize() {
         parentNodeName.setText(MainViewController.newNodeParentValue);
-        Platform.runLater(() -> {
-            stage = (Stage) addNodePane.getScene().getWindow();
-        });
+        Platform.runLater(() -> stage = (Stage) addNodePane.getScene().getWindow());
+    }
+
+    @FXML
+    private void handleAddNode(MouseEvent event) throws Exception {
+        ZooKeeper zooKeeper = ZKClient.getClient(mainViewController.getUrlTxt().getText());
+        String parentPath = mainViewController.getFullPath((TreeItem) mainViewController.getRootTree().getSelectionModel().getSelectedItem());
+        String path = parentPath.equals("/") ? "/" + newNodeName.getText() : parentPath + "/" + newNodeName.getText();
+        byte[] content = newNodeContent.getText().getBytes();
+        zooKeeper.create(path, content, ZooDefs.Ids.OPEN_ACL_UNSAFE, CreateMode.PERSISTENT);
+        mainViewController.refresh();
+        stage.close();
+    }
+
+    @FXML
+    private void handleCancel(MouseEvent event) {
+        stage.close();
     }
 
     public Stage getStage() {
@@ -47,5 +67,13 @@ public class AddNodeController {
 
     public TextField getParentNodeName() {
         return parentNodeName;
+    }
+
+    public TextField getNewNodeName() {
+        return newNodeName;
+    }
+
+    public TextArea getNewNodeContent() {
+        return newNodeContent;
     }
 }
