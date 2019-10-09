@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.layout.GridPane?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.TextField?>
-<?import javafx.scene.control.TextArea?>
-<?import javafx.scene.control.Button?>
+<?import com.jfoenix.controls.JFXTextArea?>
+<?import com.jfoenix.controls.JFXTextField?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import com.jfoenix.controls.JFXButton?>
 <GridPane xmlns="http://javafx.com/javafx"
           xmlns:fx="http://javafx.com/fxml"
           fx:id="addNodePane"
@@ -14,18 +14,18 @@
 
     <Label text="父节点"
            GridPane.columnIndex="0" GridPane.rowIndex="0"/>
-    <TextField fx:id="parentNodeName" editable="false"
-               GridPane.columnIndex="1" GridPane.rowIndex="0" GridPane.columnSpan="2"/>
+    <JFXTextField fx:id="parentNodeName" editable="false"
+                  GridPane.columnIndex="1" GridPane.rowIndex="0" GridPane.columnSpan="2"/>
     <Label text="节点名"
            GridPane.columnIndex="0" GridPane.rowIndex="1" />
-    <TextField fx:id="newNodeName"
+    <JFXTextField fx:id="newNodeName"
                GridPane.columnIndex="1" GridPane.rowIndex="1" GridPane.columnSpan="2"/>
     <Label text="内容"
            GridPane.columnIndex="0" GridPane.rowIndex="2"/>
-    <TextArea fx:id="newNodeContent"
-               GridPane.columnIndex="1" GridPane.rowIndex="2" GridPane.columnSpan="2"/>
-    <Button text="确定"
+    <JFXTextArea fx:id="newNodeContent"
+                 GridPane.columnIndex="1" GridPane.rowIndex="2" GridPane.columnSpan="2"/>
+    <JFXButton fx:id="enterBtn" text="确定"
             GridPane.columnIndex="1" GridPane.rowIndex="3" onMouseClicked="#handleAddNode"/>
-    <Button text="取消"
-            GridPane.columnIndex="2" GridPane.rowIndex="3" onMouseClicked="#handleCancel" />
+    <JFXButton fx:id="cancelBtn" text="取消"
+               GridPane.columnIndex="2" GridPane.rowIndex="3" onMouseClicked="#handleCancel" />
 </GridPane>

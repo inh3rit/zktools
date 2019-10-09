@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import com.jfoenix.controls.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <BorderPane fx:id="mainPane" prefHeight="800.0" prefWidth="1200.0" minHeight="800" minWidth="1200"
@@ -9,11 +10,11 @@
 
     <top>
         <FlowPane fx:id="propPane" prefHeight="60">
-            <Label alignment="CENTER" text="zookeeper url" HBox.hgrow="ALWAYS"/>
+            <Label textAlignment="LEFT" text="zookeeper url" HBox.hgrow="ALWAYS"/>
             <TextField fx:id="urlTxt" text="47.106.143.175:2181" prefHeight="40" prefWidth="300"/>
             <TextField promptText="监控根节点" prefHeight="40"/>
-            <Button text="连接" fx:id="connectBtn" onMouseClicked="#handleConnect"/>
-            <Button text="断开" fx:id="disconnectBtn" onMouseClicked="#handleDisconnect"/>
+            <JFXButton text="连接" fx:id="connectBtn" onMouseClicked="#handleConnect"/>
+            <JFXButton text="断开" fx:id="disconnectBtn" onMouseClicked="#handleDisconnect"/>
         </FlowPane>
     </top>
     <center>
@@ -21,9 +22,9 @@
             <left>
                 <BorderPane fx:id="left" prefWidth="260">
                     <top>
-                        <HBox prefWidth="-Infinity">
+                        <HBox prefWidth="-Infinity" spacing="10">
                             <TextField prefWidth="200" prefHeight="40" alignment="CENTER_LEFT"/>
-                            <Button fx:id="findBtn" maxWidth="40"/>
+                            <JFXButton fx:id="findBtn" maxWidth="40"/>
                         </HBox>
                     </top>
                     <center>
@@ -32,7 +33,7 @@
                                 <ContextMenu>
                                     <items>
                                         <MenuItem text="添加节点" onAction="#handleAddNode" />
-                                        <MenuItem text="删除节点" />
+                                        <MenuItem text="删除节点" onAction="#handleDeleteNode" />
                                     </items>
                                 </ContextMenu>
                             </contextMenu>
@@ -43,73 +44,73 @@
             <center>
                 <BorderPane prefHeight="-Infinity" prefWidth="-Infinity">
                     <top>
-                        <TabPane prefHeight="500">
+                        <JFXTabPane fx:id="contentPane" prefHeight="500">
                             <Tab closable="false" text="节点名">
                                 <content>
-                                    <TextArea fx:id="nodeName" editable="false" prefWidth="-Infinity" prefHeight="-Infinity"/>
+                                    <JFXTextArea fx:id="nodeName" editable="false" prefWidth="-Infinity"
+                                                 prefHeight="-Infinity"/>
                                 </content>
                             </Tab>
                             <Tab closable="false" text="节点值">
                                 <content>
-                                    <TextArea fx:id="nodeValue" editable="false" prefWidth="-Infinity" prefHeight="-Infinity"/>
+                                    <JFXTextArea fx:id="nodeValue" editable="false" prefWidth="-Infinity"
+                                                 prefHeight="-Infinity"/>
                                 </content>
                             </Tab>
                             <Tab closable="false" text="节点属性">
                                 <GridPane fx:id="nodePropPane">
-                                    <Label text="ctime:"
+                                    <Label text="ctime: " textAlignment="RIGHT"
                                            GridPane.columnIndex="0" GridPane.rowIndex="1"/>
                                     <TextField fx:id="node_ctime" editable="false"
-                                            GridPane.columnIndex="1" GridPane.rowIndex="1"/>
-                                    <Label text="dataLength:"
+                                               GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+                                    <Label text="dataLength: " textAlignment="RIGHT"
                                            GridPane.columnIndex="2" GridPane.rowIndex="1"/>
                                     <TextField fx:id="node_dataLength" editable="false"
-                                            GridPane.columnIndex="3" GridPane.rowIndex="1"/>
-                                    <Label text="mtime:"
+                                               GridPane.columnIndex="3" GridPane.rowIndex="1"/>
+                                    <Label text="mtime: " textAlignment="RIGHT"
                                            GridPane.columnIndex="0" GridPane.rowIndex="2"/>
                                     <TextField fx:id="node_mtime" editable="false"
-                                            GridPane.columnIndex="1" GridPane.rowIndex="2"/>
-                                    <Label text="ephemeralOwner:"
+                                               GridPane.columnIndex="1" GridPane.rowIndex="2"/>
+                                    <Label text="ephemeralOwner: " textAlignment="RIGHT"
                                            GridPane.columnIndex="2" GridPane.rowIndex="2"/>
                                     <TextField fx:id="node_ephemeralOwner" editable="false"
-                                            GridPane.columnIndex="3" GridPane.rowIndex="2"/>
-                                    <Label text="cZxid:"
+                                               GridPane.columnIndex="3" GridPane.rowIndex="2"/>
+                                    <Label text="cZxid: " textAlignment="RIGHT"
                                            GridPane.columnIndex="0" GridPane.rowIndex="3"/>
                                     <TextField fx:id="node_cZxid" editable="false"
-                                            GridPane.columnIndex="1" GridPane.rowIndex="3"/>
-                                    <Label text="numChildren:"
+                                               GridPane.columnIndex="1" GridPane.rowIndex="3"/>
+                                    <Label text="numChildren: " textAlignment="RIGHT"
                                            GridPane.columnIndex="2" GridPane.rowIndex="3"/>
                                     <TextField fx:id="node_numChildren" editable="false"
-                                            GridPane.columnIndex="3" GridPane.rowIndex="3"/>
-                                    <Label text="mZxid:"
+                                               GridPane.columnIndex="3" GridPane.rowIndex="3"/>
+                                    <Label text="mZxid: " textAlignment="RIGHT"
                                            GridPane.columnIndex="0" GridPane.rowIndex="4"/>
                                     <TextField fx:id="node_mZxid" editable="false"
-                                            GridPane.columnIndex="1" GridPane.rowIndex="4"/>
-                                    <Label text="aversion:"
+                                               GridPane.columnIndex="1" GridPane.rowIndex="4"/>
+                                    <Label text="aversion: " textAlignment="RIGHT"
                                            GridPane.columnIndex="2" GridPane.rowIndex="4"/>
                                     <TextField fx:id="node_aversion" editable="false"
-                                            GridPane.columnIndex="3" GridPane.rowIndex="4"/>
-                                    <Label text="pZxid:"
+                                               GridPane.columnIndex="3" GridPane.rowIndex="4"/>
+                                    <Label text="pZxid: " textAlignment="RIGHT"
                                            GridPane.columnIndex="0" GridPane.rowIndex="5"/>
                                     <TextField fx:id="node_pZxid" editable="false"
-                                            GridPane.columnIndex="1" GridPane.rowIndex="5"/>
-                                    <Label text="cversion:"
+                                               GridPane.columnIndex="1" GridPane.rowIndex="5"/>
+                                    <Label text="cversion: " textAlignment="RIGHT"
                                            GridPane.columnIndex="2" GridPane.rowIndex="5"/>
                                     <TextField fx:id="node_cversion" editable="false"
-                                            GridPane.columnIndex="3" GridPane.rowIndex="5"/>
-                                    <Label text="version:"
+                                               GridPane.columnIndex="3" GridPane.rowIndex="5"/>
+                                    <Label text="version: " textAlignment="RIGHT"
                                            GridPane.columnIndex="0" GridPane.rowIndex="6"/>
                                     <TextField fx:id="node_version" editable="false"
-                                            GridPane.columnIndex="1" GridPane.rowIndex="6"/>
+                                               GridPane.columnIndex="1" GridPane.rowIndex="6"/>
                                 </GridPane>
                             </Tab>
-                        </TabPane>
+                        </JFXTabPane>
                     </top>
                     <center>
-                        <HBox maxHeight="60" alignment="CENTER_LEFT">
-                            <CheckBox/>
-                            <Label text="URL解码"/>
-                            <CheckBox/>
-                            <Label text="美化(dubbo)"/>
+                        <HBox maxHeight="60" spacing="10">
+                            <JFXCheckBox fx:id="urlDecodeCheckBox" text="URL解码"/>
+                            <JFXCheckBox fx:id="dubboCheckBox" text="美化(dubbo)"/>
                         </HBox>
                     </center>
                     <bottom>

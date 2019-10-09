@@ -13,7 +13,7 @@ public class ZKClient {
     private static String oldUrl;
 
     public static ZooKeeper getClient(String url) throws Exception {
-        if (zooKeeper != null && oldUrl.equals(url)) {
+        if (zooKeeper != null && zooKeeper.getState().isAlive() && oldUrl.equals(url)) {
             return zooKeeper;
         } else {
             oldUrl = url;

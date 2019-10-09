@@ -1,6 +1,7 @@
 package org.inh3rit.zktools.controller;
 
 import de.felixroske.jfxsupport.FXMLController;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.TextArea;
@@ -10,6 +11,7 @@ import javafx.scene.control.TreeView;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.HBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import org.apache.zookeeper.ZooKeeper;
@@ -221,5 +223,12 @@ public class MainViewController {
 
     public TreeView getRootTree() {
         return rootTree;
+    }
+
+    @FXML
+    private void handleDeleteNode(ActionEvent event) throws Exception {
+        ZooKeeper zooKeeper = ZKClient.getClient(urlTxt.getText());
+        zooKeeper.delete(getFullPath((TreeItem) rootTree.getSelectionModel().getSelectedItem()), 0);
+        refresh();
     }
 }

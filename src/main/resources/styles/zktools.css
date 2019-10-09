@@ -13,19 +13,36 @@
 }
 
 #propPane * {
-    -fx-padding: 0px 5px 0px;
-    -fx-border-insets: 0px 5px 0px;
-    -fx-background-insets: 0px 5px 0px;
+    -fx-padding: 5px;
+    -fx-border-insets: 5px;
+    -fx-background-insets:5px;
 }
-/*#left * {*/
-/*    -fx-padding: 0px 5px 0px;*/
-/*    -fx-border-insets: 0px 5px 0px;*/
-/*    -fx-background-insets: 0px 5px 0px;*/
 
-/*}*/
+#connectBtn {
+    -jfx-button-type: FLAT;
+    -fx-background-color: #458030;
+    -fx-text-fill: white;
+}
+
+#disconnectBtn {
+    -jfx-button-type: FLAT;
+    -fx-background-color: #ff6921;
+    -fx-text-fill: white;
+}
+
+#left {
+    -fx-padding: 5px;
+    -fx-border-insets: 5px;
+    -fx-background-insets: 5px;
+}
 
 #findBtn {
     -fx-background-image: url("/images/find.png");
+    -jfx-button-type: FLAT;
+}
+
+#urlDecodeCheckBox {
+    -jfx-checked-color: blue;
 }
 
 #nodePropPane {
@@ -38,4 +55,16 @@
 
 #addNodePane {
     -fx-alignment: center;
+}
+
+#enterBtn {
+    -jfx-button-type: FLAT;
+    -fx-background-color: #458030;
+    -fx-text-fill: white;
+}
+
+#cancelBtn {
+    -jfx-button-type: FLAT;
+    -fx-background-color: #ff6921;
+    -fx-text-fill: white;
 }
