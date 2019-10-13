@@ -3,7 +3,6 @@ package org.inh3rit.zktools.controller;
 import de.felixroske.jfxsupport.FXMLController;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
-import javafx.scene.Scene;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TreeItem;
@@ -13,9 +12,7 @@ import javafx.stage.Stage;
 import org.apache.zookeeper.CreateMode;
 import org.apache.zookeeper.ZooDefs;
 import org.apache.zookeeper.ZooKeeper;
-import org.inh3rit.zktools.Application;
 import org.inh3rit.zktools.client.ZKClient;
-import org.inh3rit.zktools.views.AddNodeView;
 import org.springframework.beans.factory.annotation.Autowired;
 
 /**
@@ -38,10 +35,10 @@ public class AddNodeController {
     private Stage stage;
 
     @Autowired
-    private MainViewController mainViewController;
+    private MainUIController mainViewController;
 
     public void initialize() {
-        parentNodeName.setText(MainViewController.newNodeParentValue);
+        parentNodeName.setText(mainViewController.getNewNodeParentValue());
         Platform.runLater(() -> stage = (Stage) addNodePane.getScene().getWindow());
     }
 

@@ -8,6 +8,6 @@ import de.felixroske.jfxsupport.FXMLView;
  * @Author: ytxu3
  * @Date: 15:04 2019/6/24
  */
-@FXMLView(value = "/views/AddNodeView.fxml", bundle = "zktools", title = "添加节点")
-public class AddNodeView extends AbstractFxmlView {
+@FXMLView(value = "/views/AddNode.fxml", bundle = "zktools", title = "添加节点")
+public class AddNode extends AbstractFxmlView {
 }

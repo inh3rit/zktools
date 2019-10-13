@@ -9,6 +9,6 @@ import de.felixroske.jfxsupport.FXMLView;
  * @Date: 15:04 2019/6/24
  */
 // bundle指向/resources/zktools.properties
-@FXMLView(value = "/views/MainView.fxml", bundle = "zktools")
-public class MainView extends AbstractFxmlView {
+@FXMLView(value = "/views/MainUI.fxml", bundle = "zktools")
+public class MainUI extends AbstractFxmlView {
 }

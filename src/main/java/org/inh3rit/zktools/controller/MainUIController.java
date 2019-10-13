@@ -4,14 +4,11 @@ import de.felixroske.jfxsupport.FXMLController;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
-import javafx.scene.control.TreeItem;
-import javafx.scene.control.TreeView;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import org.apache.zookeeper.ZooKeeper;
@@ -19,7 +16,7 @@ import org.apache.zookeeper.data.Stat;
 import org.inh3rit.zktools.Application;
 import org.inh3rit.zktools.client.ZKClient;
 import org.inh3rit.zktools.utils.ZKUtils;
-import org.inh3rit.zktools.views.AddNodeView;
+import org.inh3rit.zktools.views.AddNode;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
@@ -32,7 +29,7 @@ import java.util.Optional;
  * @Date: 15:20 2019/6/24
  */
 @FXMLController
-public class MainViewController {
+public class MainUIController {
 
     @FXML
     private TreeView rootTree;
@@ -59,12 +56,14 @@ public class MainViewController {
 
     private Map<String, List> dirMap;
 
-    public static String newNodeParentValue;
-
+    private String newNodeParentValue;
 
     public void initialize() {
         rootIconImg = new Image(getClass().getResourceAsStream("/images/directory.png"));
         leafIconImg = new Image(getClass().getResourceAsStream("/images/file.png"));
+//        vbox.widthProperty().addListener((observable, oldValue, newValue) -> {
+//            System.out.println(newValue);
+//        });
     }
 
     @FXML
@@ -169,7 +168,7 @@ public class MainViewController {
         newNodeParentValue = selectedItem.getValue().toString();
         Stage addNodeStage = addNodeController.getStage();
         if (addNodeStage == null) {
-            Application.showView(AddNodeView.class, Modality.APPLICATION_MODAL);
+            Application.showView(AddNode.class, Modality.APPLICATION_MODAL);
         } else {
             addNodeController.getParentNodeName().setText(newNodeParentValue);
             addNodeController.getNewNodeName().setText("");
@@ -217,6 +216,13 @@ public class MainViewController {
         }
     }
 
+    @FXML
+    private void handleDeleteNode(ActionEvent event) throws Exception {
+        ZooKeeper zooKeeper = ZKClient.getClient(urlTxt.getText());
+        zooKeeper.delete(getFullPath((TreeItem) rootTree.getSelectionModel().getSelectedItem()), 0);
+        refresh();
+    }
+
     public TextField getUrlTxt() {
         return urlTxt;
     }
@@ -225,10 +231,7 @@ public class MainViewController {
         return rootTree;
     }
 
-    @FXML
-    private void handleDeleteNode(ActionEvent event) throws Exception {
-        ZooKeeper zooKeeper = ZKClient.getClient(urlTxt.getText());
-        zooKeeper.delete(getFullPath((TreeItem) rootTree.getSelectionModel().getSelectedItem()), 0);
-        refresh();
+    public String getNewNodeParentValue() {
+        return newNodeParentValue;
     }
 }
