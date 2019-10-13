@@ -10,12 +10,14 @@
             stylesheets="/styles/zktools.css">
 
     <top>
-        <FlowPane fx:id="propPane" prefHeight="60">
-            <Label textAlignment="LEFT" text="zookeeper url" HBox.hgrow="ALWAYS"/>
-            <TextField fx:id="urlTxt" text="47.106.143.175:2181" prefHeight="40" prefWidth="300"/>
-            <TextField promptText="监控根节点" prefHeight="40"/>
-            <JFXButton text="连接" fx:id="connectBtn" onMouseClicked="#handleConnect"/>
-            <JFXButton text="断开" fx:id="disconnectBtn" onMouseClicked="#handleDisconnect"/>
+        <FlowPane alignment="CENTER" prefHeight="60">
+            <HBox prefHeight="40" spacing="10">
+                <Label fx:id="urlLab" textAlignment="CENTER" styleClass="font_size_14" prefHeight="40" text="zookeeper url" />
+                <TextField fx:id="urlTxt" minWidth="260" text="47.106.143.175:2181" />
+                <TextField fx:id="rootPathTxt" maxWidth="120" promptText="监控根节点" />
+                <JFXButton text="连接" fx:id="connectBtn" onMouseClicked="#handleConnect"/>
+                <JFXButton text="断开" fx:id="disconnectBtn" onMouseClicked="#handleDisconnect"/>
+            </HBox>
         </FlowPane>
     </top>
     <center>
@@ -48,8 +50,7 @@
                             <JFXTabPane fx:id="contentPane" prefHeight="500" prefWidth="830" VBox.vgrow="ALWAYS">
                                 <Tab closable="false" text="节点名">
                                     <content>
-                                        <JFXTextArea fx:id="nodeName" editable="false" prefWidth="-Infinity"
-                                                     prefHeight="-Infinity"/>
+                                        <JFXTextArea fx:id="nodeName" editable="false" prefWidth="-Infinity" prefHeight="-Infinity"/>
                                     </content>
                                 </Tab>
                                 <Tab closable="false" text="节点值">
@@ -60,7 +61,7 @@
                                 </Tab>
                                 <Tab closable="false" text="节点属性">
                                     <GridPane fx:id="nodePropPane">
-                                        <Label text="ctime:" textAlignment="RIGHT"
+                                        <Label text="ctime:"
                                                GridPane.columnIndex="0" GridPane.rowIndex="1">
                                             <GridPane.margin>
                                                 <Insets bottom="5"/>
@@ -72,7 +73,7 @@
                                                 <Insets right="20" bottom="5"/>
                                             </GridPane.margin>
                                         </TextField>
-                                        <Label text="dataLength:" textAlignment="RIGHT"
+                                        <Label text="dataLength:"
                                                GridPane.columnIndex="2" GridPane.rowIndex="1">
                                             <GridPane.margin>
                                                 <Insets bottom="5"/>
@@ -80,7 +81,7 @@
                                         </Label>
                                         <TextField fx:id="node_dataLength" editable="false"
                                                    GridPane.columnIndex="3" GridPane.rowIndex="1"/>
-                                        <Label text="mtime:" textAlignment="RIGHT"
+                                        <Label text="mtime:"
                                                GridPane.columnIndex="0" GridPane.rowIndex="2">
                                             <GridPane.margin>
                                                 <Insets bottom="5"/>
@@ -92,7 +93,7 @@
                                                 <Insets right="20" bottom="5"/>
                                             </GridPane.margin>
                                         </TextField>
-                                        <Label text="ephemeralOwner:" textAlignment="RIGHT"
+                                        <Label text="ephemeralOwner:"
                                                GridPane.columnIndex="2" GridPane.rowIndex="2">
                                             <GridPane.margin>
                                                 <Insets bottom="5"/>
@@ -100,7 +101,7 @@
                                         </Label>
                                         <TextField fx:id="node_ephemeralOwner" editable="false"
                                                    GridPane.columnIndex="3" GridPane.rowIndex="2"/>
-                                        <Label text="cZxid:" textAlignment="RIGHT"
+                                        <Label text="cZxid:"
                                                GridPane.columnIndex="0" GridPane.rowIndex="3">
                                             <GridPane.margin>
                                                 <Insets bottom="5"/>
@@ -112,7 +113,7 @@
                                                 <Insets right="20" bottom="5"/>
                                             </GridPane.margin>
                                         </TextField>
-                                        <Label text="numChildren:" textAlignment="RIGHT"
+                                        <Label text="numChildren:"
                                                GridPane.columnIndex="2" GridPane.rowIndex="3">
                                             <GridPane.margin>
                                                 <Insets bottom="5"/>
@@ -120,7 +121,7 @@
                                         </Label>
                                         <TextField fx:id="node_numChildren" editable="false"
                                                    GridPane.columnIndex="3" GridPane.rowIndex="3"/>
-                                        <Label text="mZxid:" textAlignment="RIGHT"
+                                        <Label text="mZxid:"
                                                GridPane.columnIndex="0" GridPane.rowIndex="4">
                                             <GridPane.margin>
                                                 <Insets bottom="5"/>
@@ -132,7 +133,7 @@
                                                 <Insets right="20" bottom="5"/>
                                             </GridPane.margin>
                                         </TextField>
-                                        <Label text="aversion:" textAlignment="RIGHT"
+                                        <Label text="aversion:"
                                                GridPane.columnIndex="2" GridPane.rowIndex="4">
                                             <GridPane.margin>
                                                 <Insets bottom="5"/>
@@ -140,7 +141,7 @@
                                         </Label>
                                         <TextField fx:id="node_aversion" editable="false"
                                                    GridPane.columnIndex="3" GridPane.rowIndex="4"/>
-                                        <Label text="pZxid:" textAlignment="RIGHT"
+                                        <Label text="pZxid:"
                                                GridPane.columnIndex="0" GridPane.rowIndex="5">
                                             <GridPane.margin>
                                                 <Insets bottom="5"/>
@@ -152,7 +153,7 @@
                                                 <Insets right="20" bottom="5"/>
                                             </GridPane.margin>
                                         </TextField>
-                                        <Label text="cversion:" textAlignment="RIGHT"
+                                        <Label text="cversion:"
                                                GridPane.columnIndex="2" GridPane.rowIndex="5">
                                             <GridPane.margin>
                                                 <Insets bottom="5"/>
@@ -160,7 +161,7 @@
                                         </Label>
                                         <TextField fx:id="node_cversion" editable="false"
                                                    GridPane.columnIndex="3" GridPane.rowIndex="5"/>
-                                        <Label text="version:" textAlignment="RIGHT"
+                                        <Label text="version:"
                                                GridPane.columnIndex="0" GridPane.rowIndex="6">
                                             <GridPane.margin>
                                                 <Insets bottom="5"/>
@@ -186,38 +187,12 @@
                             </HBox>
                         </children>
                         <children>
-                            <TextArea promptText="监控日志"/>
+                            <JFXTextArea fx:id="logTxtArea" promptText="监控日志" editable="false"/>
                         </children>
                     </VBox>
                 </AnchorPane>
             </items>
         </SplitPane>
-        <!--        <BorderPane>-->
-        <!--            <left>-->
-        <!--                <BorderPane fx:id="left" prefWidth="260">-->
-        <!--                    <top>-->
-
-        <!--                    </top>-->
-        <!--                    <center>-->
-
-        <!--                    </center>-->
-        <!--                </BorderPane>-->
-        <!--            </left>-->
-        <!--            <center>-->
-
-        <!--                <BorderPane prefHeight="-Infinity" prefWidth="-Infinity">-->
-        <!--                    <top>-->
-        <!--                        -->
-        <!--                    </top>-->
-        <!--                    <center>-->
-        <!--                        -->
-        <!--                    </center>-->
-        <!--                    <bottom>-->
-        <!--                        -->
-        <!--                    </bottom>-->
-        <!--                </BorderPane>-->
-        <!--            </center>-->
-        <!--        </BorderPane>-->
     </center>
 
 </BorderPane>

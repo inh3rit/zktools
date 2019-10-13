@@ -11,6 +11,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.zookeeper.ZooKeeper;
 import org.apache.zookeeper.data.Stat;
 import org.inh3rit.zktools.Application;
@@ -38,6 +39,9 @@ public class MainUIController {
     private TextField urlTxt;
 
     @FXML
+    private TextField rootPathTxt;
+
+    @FXML
     private TextArea nodeName;
 
     @FXML
@@ -61,9 +65,6 @@ public class MainUIController {
     public void initialize() {
         rootIconImg = new Image(getClass().getResourceAsStream("/images/directory.png"));
         leafIconImg = new Image(getClass().getResourceAsStream("/images/file.png"));
-//        vbox.widthProperty().addListener((observable, oldValue, newValue) -> {
-//            System.out.println(newValue);
-//        });
     }
 
     @FXML
@@ -83,7 +84,8 @@ public class MainUIController {
     }
 
     private void initDirs() throws Exception {
-        dirMap = ZKUtils.getAllChildren(zk, "/");
+        String rootPath = StringUtils.isEmpty(rootPathTxt.getText()) ? "/" : rootPathTxt.getText();
+        dirMap = ZKUtils.getAllChildren(zk, rootPath);
 
         Node rootIcon = new ImageView(rootIconImg);
         TreeItem<String> rootItem = new TreeItem<>(dirMap.keySet().toArray()[0].toString(), rootIcon);

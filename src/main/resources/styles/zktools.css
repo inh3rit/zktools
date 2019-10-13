@@ -1,5 +1,9 @@
 * {
-    -fx-font-size: 13px;
+    -fx-font-size: 14px;
+}
+
+#urlLab {
+    -fx-font-weight: BOLD;
 }
 
 .button {
@@ -10,16 +14,6 @@
 .text-field {
     -fx-pref-height: 40;
     -fx-pref-width: 200;
-}
-
-#propPane {
-    -fx-alignment: center;
-}
-
-#propPane * {
-    -fx-padding: 5px;
-    -fx-border-insets: 5px;
-    -fx-background-insets:5px;
 }
 
 #connectBtn {
@@ -53,6 +47,10 @@
     -fx-background-color: white;
 }
 
+#logTxtArea {
+    -fx-background-color: white;
+}
+
 #nodeName {
     -fx-padding: 10px;
 }
@@ -67,6 +65,11 @@
 
 #nodePropPane .label {
     -fx-text-alignment: right;
+}
+
+#nodePropPane .text-field {
+    -fx-pref-height: 30;
+    -fx-pref-width: 200;
 }
 
 #addNodePane {

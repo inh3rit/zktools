@@ -7,6 +7,7 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TreeItem;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 import org.apache.zookeeper.CreateMode;
@@ -24,7 +25,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 public class AddNodeController {
 
     @FXML
-    private GridPane addNodePane;
+    private AnchorPane addNodePane;
 
     @FXML
     private TextField parentNodeName, newNodeName;
