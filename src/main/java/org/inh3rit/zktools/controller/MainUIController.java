@@ -62,6 +62,10 @@ public class MainUIController {
 
     private String newNodeParentValue;
 
+    private String rootPath;
+
+    private String zkRootPath = "/";
+
     public void initialize() {
         rootIconImg = new Image(getClass().getResourceAsStream("/images/directory.png"));
         leafIconImg = new Image(getClass().getResourceAsStream("/images/file.png"));
@@ -84,7 +88,7 @@ public class MainUIController {
     }
 
     private void initDirs() throws Exception {
-        String rootPath = StringUtils.isEmpty(rootPathTxt.getText()) ? "/" : rootPathTxt.getText();
+        rootPath = StringUtils.isEmpty(rootPathTxt.getText()) ? "/" : rootPathTxt.getText();
         dirMap = ZKUtils.getAllChildren(zk, rootPath);
 
         Node rootIcon = new ImageView(rootIconImg);
@@ -97,10 +101,10 @@ public class MainUIController {
     public String getFullPath(TreeItem item) {
         String value = item.getValue().toString();
         TreeItem parent = item.getParent();
-        if ("/".equals(value)) {
-            return "/";
-        } else if ("/".equals(parent.getValue().toString())) {
-            return "/" + value;
+        if (rootPath.equals(value)) {
+            return value;
+        } else if (rootPath.equals(parent.getValue().toString())) {
+            return rootPath.equals(zkRootPath) ? rootPath + value : rootPath + "/" + value;
         } else {
             return getFullPath(parent) + "/" + value;
         }
