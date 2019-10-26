@@ -121,7 +121,7 @@
                                         </Label>
                                         <TextField fx:id="node_numChildren" editable="false"
                                                    GridPane.columnIndex="3" GridPane.rowIndex="3"/>
-                                        <Label text="mZxid:"
+                                        <Label text="mZxid:" tooltip="节点最后一次被修改时的实物ID"
                                                GridPane.columnIndex="0" GridPane.rowIndex="4">
                                             <GridPane.margin>
                                                 <Insets bottom="5"/>
@@ -187,7 +187,7 @@
                             </HBox>
                         </children>
                         <children>
-                            <JFXTextArea fx:id="logTxtArea" promptText="监控日志" editable="false"/>
+                            <JFXTextArea fx:id="logTxtArea" promptText="" editable="false"/>
                         </children>
                     </VBox>
                 </AnchorPane>

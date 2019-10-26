@@ -8,7 +8,6 @@ import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import org.apache.commons.lang3.StringUtils;
@@ -16,10 +15,13 @@ import org.apache.zookeeper.ZooKeeper;
 import org.apache.zookeeper.data.Stat;
 import org.inh3rit.zktools.Application;
 import org.inh3rit.zktools.client.ZKClient;
+import org.inh3rit.zktools.utils.JSONUtils;
+import org.inh3rit.zktools.utils.Utils;
 import org.inh3rit.zktools.utils.ZKUtils;
 import org.inh3rit.zktools.views.AddNode;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.net.URLDecoder;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -46,6 +48,9 @@ public class MainUIController {
 
     @FXML
     private TextArea nodeValue;
+
+    @FXML
+    private CheckBox urlDecodeCheckBox, dubboCheckBox;
 
     @FXML
     private TextField node_ctime, node_dataLength, node_mtime, node_ephemeralOwner, node_cZxid,
@@ -181,7 +186,6 @@ public class MainUIController {
             addNodeController.getNewNodeContent().setText("");
             addNodeStage.showAndWait();
         }
-
     }
 
     /**
@@ -197,14 +201,23 @@ public class MainUIController {
         if (selectedItem == null)
             return;
         String fullPath = getFullPath(selectedItem);
-        nodeName.setText(selectedItem.getValue().toString());
 
         if ("/".equals(fullPath))
             return;
 
         try {
-            Optional<String> value = Optional.of(ZKUtils.getData(zk, fullPath));
-            nodeValue.setText(value.orElse(""));
+            String nodeName = selectedItem.getValue().toString();
+            String nodeValue = Optional.of(ZKUtils.getData(zk, fullPath)).orElse("");
+            if (urlDecodeCheckBox.isSelected()) {
+                nodeName = Utils.decode(nodeName);
+                nodeValue = Utils.decode(nodeValue);
+            }
+            if (dubboCheckBox.isSelected()) {
+                nodeName = JSONUtils.jsonFormat(nodeName);
+                nodeValue = JSONUtils.jsonFormat(nodeValue);
+            }
+            this.nodeName.setText(nodeName);
+            this.nodeValue.setText(nodeValue);
             Stat stat = ZKUtils.getStat(zk, fullPath);
             node_ctime.setText(String.valueOf(stat.getCtime()));
             node_dataLength.setText(String.valueOf(stat.getDataLength()));
