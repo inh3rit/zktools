@@ -238,7 +238,8 @@ public class MainUIController {
     @FXML
     private void handleDeleteNode(ActionEvent event) throws Exception {
         ZooKeeper zooKeeper = ZKClient.getClient(urlTxt.getText());
-        zooKeeper.delete(getFullPath((TreeItem) rootTree.getSelectionModel().getSelectedItem()), 0);
+        // set version to -1(latest version)
+        zooKeeper.delete(getFullPath((TreeItem) rootTree.getSelectionModel().getSelectedItem()), -1);
         refresh();
     }
 

@@ -121,7 +121,7 @@
                                         </Label>
                                         <TextField fx:id="node_numChildren" editable="false"
                                                    GridPane.columnIndex="3" GridPane.rowIndex="3"/>
-                                        <Label text="mZxid:" tooltip="节点最后一次被修改时的实物ID"
+                                        <Label text="mZxid:"
                                                GridPane.columnIndex="0" GridPane.rowIndex="4">
                                             <GridPane.margin>
                                                 <Insets bottom="5"/>
