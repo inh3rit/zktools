@@ -6,6 +6,9 @@ import org.junit.Test;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
+import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -54,5 +57,12 @@ public class ZKUtilsTest {
     @Test
     public void testUrlDecode() throws UnsupportedEncodingException {
         System.out.println(URLDecoder.decode("This%2Bstring%2Bhas%2Bpluses", "UTF-8"));
+    }
+
+    @Test
+    public void testLocalDateTime() {
+        LocalDateTime localDateTime = LocalDateTime.ofEpochSecond(1570630513362l / 1000, 0, ZoneOffset.of("+8"));
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        System.out.println(localDateTime.format(formatter));
     }
 }

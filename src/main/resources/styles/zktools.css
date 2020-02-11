@@ -87,3 +87,9 @@
     -fx-background-color: #ff6921;
     -fx-text-fill: white;
 }
+
+#updateBtn {
+    -jfx-button-type: FLAT;
+    -fx-background-color: #ff6921;
+    -fx-text-fill: white;
+}

@@ -11,12 +11,15 @@ import com.alibaba.fastjson.serializer.SerializerFeature;
  */
 public class JSONUtils {
 
-    public static String jsonFormat(String jsonString) {
+    public static String jsonFormat(String string) {
+        String jsonString = string;
         try {
-            JSONObject object= JSONObject.parseObject(jsonString);
+            JSONObject object = JSONObject.parseObject(jsonString);
+            if (null == object)
+                return string;
             jsonString = JSON.toJSONString(object, SerializerFeature.PrettyFormat, SerializerFeature.WriteMapNullValue, SerializerFeature.WriteDateUseDateFormat);
         } catch (Exception e) {
-            // do nothing
+            return string;
         }
         return jsonString;
     }

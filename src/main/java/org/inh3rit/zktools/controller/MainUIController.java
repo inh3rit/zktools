@@ -1,5 +1,6 @@
 package org.inh3rit.zktools.controller;
 
+import com.jfoenix.controls.JFXTabPane;
 import de.felixroske.jfxsupport.FXMLController;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -15,13 +16,13 @@ import org.apache.zookeeper.ZooKeeper;
 import org.apache.zookeeper.data.Stat;
 import org.inh3rit.zktools.Application;
 import org.inh3rit.zktools.client.ZKClient;
+import org.inh3rit.zktools.utils.DateUtils;
 import org.inh3rit.zktools.utils.JSONUtils;
 import org.inh3rit.zktools.utils.Utils;
 import org.inh3rit.zktools.utils.ZKUtils;
 import org.inh3rit.zktools.views.AddNode;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import java.net.URLDecoder;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -50,6 +51,9 @@ public class MainUIController {
     private TextArea nodeValue;
 
     @FXML
+    private JFXTabPane contentPane;
+
+    @FXML
     private CheckBox urlDecodeCheckBox, dubboCheckBox;
 
     @FXML
@@ -70,6 +74,9 @@ public class MainUIController {
     private String rootPath;
 
     private String zkRootPath = "/";
+
+    // nodeValue原值
+    private String value;
 
     public void initialize() {
         rootIconImg = new Image(getClass().getResourceAsStream("/images/directory.png"));
@@ -208,20 +215,19 @@ public class MainUIController {
         try {
             String nodeName = selectedItem.getValue().toString();
             String nodeValue = Optional.of(ZKUtils.getData(zk, fullPath)).orElse("");
+            this.value = nodeValue;
             if (urlDecodeCheckBox.isSelected()) {
-                nodeName = Utils.decode(nodeName);
                 nodeValue = Utils.decode(nodeValue);
             }
             if (dubboCheckBox.isSelected()) {
-                nodeName = JSONUtils.jsonFormat(nodeName);
                 nodeValue = JSONUtils.jsonFormat(nodeValue);
             }
             this.nodeName.setText(nodeName);
             this.nodeValue.setText(nodeValue);
             Stat stat = ZKUtils.getStat(zk, fullPath);
-            node_ctime.setText(String.valueOf(stat.getCtime()));
+            node_ctime.setText(DateUtils.format(stat.getCtime() / 1000));
             node_dataLength.setText(String.valueOf(stat.getDataLength()));
-            node_mtime.setText(String.valueOf(stat.getMtime()));
+            node_mtime.setText(DateUtils.format(stat.getCtime() / 1000));
             node_ephemeralOwner.setText(String.valueOf(stat.getEphemeralOwner()));
             node_cZxid.setText(String.valueOf(stat.getCzxid()));
             node_numChildren.setText(String.valueOf(stat.getNumChildren()));
@@ -241,6 +247,48 @@ public class MainUIController {
         // set version to -1(latest version)
         zooKeeper.delete(getFullPath((TreeItem) rootTree.getSelectionModel().getSelectedItem()), -1);
         refresh();
+    }
+
+    @FXML
+    private void handleUpdate(MouseEvent event) {
+        TreeItem selectedItem = (TreeItem) rootTree.getSelectionModel().getSelectedItem();
+        if (selectedItem == null)
+            return;
+        String fullPath = getFullPath(selectedItem);
+
+        if ("/".equals(fullPath))
+            return;
+
+        try {
+            String newValue = this.nodeValue.getText();
+            zk.setData(fullPath, newValue.getBytes(), -1);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    private void handleDubbo(MouseEvent event) {
+        // 如果在节点值tab
+        if (this.contentPane.getSelectionModel().getSelectedIndex() == 1) {
+            if (dubboCheckBox.isSelected()) {
+                this.nodeValue.setText(JSONUtils.jsonFormat(this.nodeValue.getText()));
+            } else {
+                this.nodeValue.setText(value);
+            }
+        }
+    }
+
+    @FXML
+    private void handleUrlDecode(MouseEvent event) {
+        // 如果在节点值tab
+        if (this.contentPane.getSelectionModel().getSelectedIndex() == 1) {
+            if (urlDecodeCheckBox.isSelected()) {
+                this.nodeValue.setText(Utils.decode(this.nodeValue.getText()));
+            } else {
+                this.nodeValue.setText(value);
+            }
+        }
     }
 
     public TextField getUrlTxt() {

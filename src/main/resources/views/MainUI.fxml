@@ -12,9 +12,10 @@
     <top>
         <FlowPane alignment="CENTER" prefHeight="60">
             <HBox prefHeight="40" spacing="10">
-                <Label fx:id="urlLab" textAlignment="CENTER" styleClass="font_size_14" prefHeight="40" text="zookeeper url" />
-                <TextField fx:id="urlTxt" minWidth="260" text="47.106.143.175:2181" />
-                <TextField fx:id="rootPathTxt" maxWidth="120" promptText="监控根节点" />
+                <Label fx:id="urlLab" textAlignment="CENTER" styleClass="font_size_14" prefHeight="40"
+                       text="zookeeper url"/>
+                <TextField fx:id="urlTxt" minWidth="260" text="47.106.143.175:2181"/>
+                <TextField fx:id="rootPathTxt" maxWidth="120" promptText="监控根节点"/>
                 <JFXButton text="连接" fx:id="connectBtn" onMouseClicked="#handleConnect"/>
                 <JFXButton text="断开" fx:id="disconnectBtn" onMouseClicked="#handleDisconnect"/>
             </HBox>
@@ -31,7 +32,8 @@
                         </HBox>
                         <AnchorPane prefHeight="560" minHeight="500" VBox.vgrow="SOMETIMES">
                             <TreeView fx:id="rootTree" onMouseClicked="#handleGetNodeInfo"
-                                       AnchorPane.topAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0">
+                                      AnchorPane.topAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.bottomAnchor="0"
+                                      AnchorPane.leftAnchor="0">
                                 <contextMenu>
                                     <ContextMenu>
                                         <items>
@@ -45,17 +47,19 @@
                     </children>
                 </VBox>
                 <AnchorPane>
-                    <VBox AnchorPane.topAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0">
+                    <VBox AnchorPane.topAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.bottomAnchor="0"
+                          AnchorPane.leftAnchor="0">
                         <children>
                             <JFXTabPane fx:id="contentPane" prefHeight="500" prefWidth="830" VBox.vgrow="ALWAYS">
                                 <Tab closable="false" text="节点名">
                                     <content>
-                                        <JFXTextArea fx:id="nodeName" editable="false" prefWidth="-Infinity" prefHeight="-Infinity"/>
+                                        <JFXTextArea fx:id="nodeName" editable="false" prefWidth="-Infinity"
+                                                     prefHeight="-Infinity"/>
                                     </content>
                                 </Tab>
                                 <Tab closable="false" text="节点值">
                                     <content>
-                                        <JFXTextArea fx:id="nodeValue" editable="false" prefWidth="-Infinity"
+                                        <JFXTextArea fx:id="nodeValue" prefWidth="-Infinity"
                                                      prefHeight="-Infinity"/>
                                     </content>
                                 </Tab>
@@ -178,12 +182,13 @@
                             </JFXTabPane>
                         </children>
                         <children>
-                            <HBox maxHeight="30" minHeight="30" spacing="10">
+                            <HBox maxHeight="30" minHeight="30" spacing="10" alignment="CENTER_LEFT">
                                 <VBox.margin>
-                                    <Insets top="5" left="5"/>
+                                    <Insets left="5"/>
                                 </VBox.margin>
-                                <JFXCheckBox fx:id="urlDecodeCheckBox" text="URL解码"/>
-                                <JFXCheckBox fx:id="dubboCheckBox" text="美化(dubbo)"/>
+                                <JFXButton fx:id="updateBtn" text="更新" onMouseClicked="#handleUpdate" />
+                                <JFXCheckBox fx:id="urlDecodeCheckBox" text="URL解码" onMouseClicked="#handleUrlDecode" />
+                                <JFXCheckBox fx:id="dubboCheckBox" text="美化(dubbo)" onMouseClicked="#handleDubbo" />
                             </HBox>
                         </children>
                         <children>
