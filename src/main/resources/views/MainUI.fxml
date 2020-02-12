@@ -7,7 +7,7 @@
 <BorderPane fx:id="mainPane" prefHeight="780.0" prefWidth="1104.0" minHeight="780" minWidth="1104"
             xmlns="http://javafx.com/javafx/8.0.172-ea"
             xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.inh3rit.zktools.controller.MainUIController"
-            stylesheets="/styles/zktools.css">
+            stylesheets="/styles/zktools.css" onKeyPressed="#handleEnter">
 
     <top>
         <FlowPane alignment="CENTER" prefHeight="60">

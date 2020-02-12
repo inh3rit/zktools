@@ -8,6 +8,8 @@ import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -75,6 +77,8 @@ public class MainUIController {
 
     private String zkRootPath = "/";
 
+    private boolean isConnect = false;
+
     // nodeValue原值
     private String value;
 
@@ -85,6 +89,10 @@ public class MainUIController {
 
     @FXML
     private void handleConnect() throws Exception {
+        connect();
+    }
+
+    private void connect() throws Exception {
         String url = urlTxt.getCharacters().toString();
         if (!checkUrl(url)) {
             // TODO 提示
@@ -93,6 +101,8 @@ public class MainUIController {
         zk = ZKClient.getClient(url);
 
         initDirs();
+
+        isConnect = true;
     }
 
     public void refresh() throws Exception {
@@ -159,6 +169,8 @@ public class MainUIController {
         rootTree.setRoot(null);
         dirMap.clear();
         clearValue();
+
+        isConnect = false;
     }
 
     private void clearValue() {
@@ -259,12 +271,18 @@ public class MainUIController {
         if ("/".equals(fullPath))
             return;
 
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.titleProperty().set("提示");
+        alert.headerTextProperty().set("更新成功！");
         try {
             String newValue = this.nodeValue.getText();
             zk.setData(fullPath, newValue.getBytes(), -1);
         } catch (Exception e) {
             e.printStackTrace();
+            alert.headerTextProperty().set("更新失败！");
         }
+        alert.showAndWait();
+
     }
 
     @FXML
@@ -291,6 +309,13 @@ public class MainUIController {
         }
     }
 
+    @FXML
+    private void handleEnter(KeyEvent keyEvent) throws Exception {
+        if (!isConnect && keyEvent.getCode() == KeyCode.ENTER) {
+            connect();
+        }
+    }
+
     public TextField getUrlTxt() {
         return urlTxt;
     }
@@ -302,4 +327,5 @@ public class MainUIController {
     public String getNewNodeParentValue() {
         return newNodeParentValue;
     }
+
 }

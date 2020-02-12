@@ -6,10 +6,7 @@ import org.apache.zookeeper.ZooKeeper;
 import org.apache.zookeeper.data.Stat;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * @Description:
@@ -52,7 +49,12 @@ public class ZKUtils {
 
     public static String getData(ZooKeeper zk, String path) throws Exception {
         try {
-            return new String(zk.getData(path, false, null));
+            Optional<byte[]> data = Optional.of(zk.getData(path, false, null));
+            if (data.isPresent()) {
+                return new String(data.get());
+            } else {
+                return null;
+            }
         } catch (KeeperException | InterruptedException e) {
             throw new Exception("获取节点值失败!");
         }
